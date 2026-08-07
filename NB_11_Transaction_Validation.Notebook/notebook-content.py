@@ -48,3 +48,18 @@ print("Valid statuses:", valid_statuses)
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+# Validate transaction amount
+def validate_amount(amount):
+    return amount > 0
+
+print("Amount validation rule: Amount must be greater than 0")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
