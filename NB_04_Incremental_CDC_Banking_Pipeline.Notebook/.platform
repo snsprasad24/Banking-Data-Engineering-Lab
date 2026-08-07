@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "NB_04_Incremental_CDC_Banking_Pipeline"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "278a66e1-c2ff-a79a-40f4-201e7c17f67e"
+  }
+}

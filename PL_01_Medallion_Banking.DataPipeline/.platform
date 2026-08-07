@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "PL_01_Medallion_Banking"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6d29d929-dc09-97b7-4cd6-32023551eb84"
+  }
+}

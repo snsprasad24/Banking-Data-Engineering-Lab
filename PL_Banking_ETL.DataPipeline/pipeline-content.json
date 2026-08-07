@@ -1,0 +1,195 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "70f9438e-5332-876e-4e00-ad6fbea3fdf0",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "pLoadMode": {
+              "value": {
+                "value": "@pipeline().parameters.pLoadMode",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pProcessDate": {
+              "value": {
+                "value": "@pipeline().parameters.pProcessDate",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "NB_01_Medallion_Banking_Transactions",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "7e8e7507-d4bb-bd7c-478a-be4c7b75aeda",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "pLoadMode": {
+              "value": {
+                "value": "@pipeline().parameters.pLoadMode",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pProcessDate": {
+              "value": {
+                "value": "@pipeline().parameters.pProcessDate",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 2,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "NB_02_Incremental_Banking_Transactions_v2",
+        "dependsOn": [
+          {
+            "activity": "NB_01_Medallion_Banking_Transactions",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "937c1fea-4539-b728-4f42-f5cbc26e1467",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "pPipelineName": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pActivityName": {
+              "value": "NB_01_Medallion_Banking_Transactions",
+              "type": "string"
+            },
+            "pRunId": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pErrorMessage": {
+              "value": "NB1 execution failed - check Fabric activity output for detailed error.",
+              "type": "string"
+            },
+            "pProcessDate": {
+              "value": {
+                "value": "@pipeline().parameters.pProcessDate",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "NB_03_ETL_Audit_Logger1",
+        "dependsOn": [
+          {
+            "activity": "NB_01_Medallion_Banking_Transactions",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "937c1fea-4539-b728-4f42-f5cbc26e1467",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "pPipelineName": {
+              "value": {
+                "value": "@pipeline().Pipeline",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pActivityName": {
+              "value": "NB_02_Incremental_Banking_Transactions_v2",
+              "type": "string"
+            },
+            "pRunId": {
+              "value": {
+                "value": "@pipeline().RunId",
+                "type": "Expression"
+              },
+              "type": "string"
+            },
+            "pErrorMessage": {
+              "value": "NB2 execution failed - check Fabric activity output for detailed error.",
+              "type": "string"
+            },
+            "pProcessDate": {
+              "value": {
+                "value": "@pipeline().parameters.pProcessDate",
+                "type": "Expression"
+              },
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "NB_03_ETL_Audit_Logger2",
+        "dependsOn": [
+          {
+            "activity": "NB_02_Incremental_Banking_Transactions_v2",
+            "dependencyConditions": [
+              "Failed"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "pLoadMode": {
+        "type": "string",
+        "defaultValue": "incremental"
+      },
+      "pProcessDate": {
+        "type": "string",
+        "defaultValue": "2026-07-28"
+      }
+    }
+  }
+}

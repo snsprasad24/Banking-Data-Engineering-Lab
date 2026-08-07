@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Notebook",
+    "displayName": "NB_05_Failure_Restartability_Test"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ff9cbe60-10c6-948f-4b25-36df08df81a4"
+  }
+}

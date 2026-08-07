@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "DataPipeline",
+    "displayName": "PL_Banking_ETL"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ed3e6e44-3063-aca1-4cb2-698d4c2e9145"
+  }
+}
