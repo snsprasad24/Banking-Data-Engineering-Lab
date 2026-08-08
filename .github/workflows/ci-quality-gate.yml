@@ -16,6 +16,6 @@ jobs:
       - name: Validate GIT-05 marker
         run: |
           echo "Running GIT-05 CI Quality Gate..."
-          test -f NB_11_Transaction_Validation
-          grep -q "GIT-05: CI quality gate test marker" NB_11_Transaction_Validation
+          test -d NB_11_Transaction_Validation.Notebook
+          grep -R -q "GIT-05: CI quality gate test marker" NB_11_Transaction_Validation.Notebook
           echo "CI Quality Gate PASSED"
