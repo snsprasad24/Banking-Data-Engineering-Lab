@@ -63,3 +63,23 @@ print("Amount validation rule: Amount must be greater than 0")
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
+
+# CELL ********************
+
+from pyspark.sql.functions import col
+
+valid_statuses = ["COMPLETED", "PENDING", "FAILED"]
+
+invalid_transactions = df.filter(
+    (col("Amount") <= 0) |
+    (~col("Status").isin(valid_statuses))
+)
+
+display(invalid_transactions)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
