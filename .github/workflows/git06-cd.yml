@@ -1,0 +1,28 @@
+name: GIT-06 Enterprise CD
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy-dev:
+    name: Deploy to DEV
+    runs-on: ubuntu-latest
+
+    environment:
+      name: DEV
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: DEV deployment simulation
+        run: |
+          echo "================================="
+          echo "GIT-06 DEV DEPLOYMENT"
+          echo "================================="
+          echo "Environment: DEV"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit: $GITHUB_SHA"
+          echo "Deployment successful"
