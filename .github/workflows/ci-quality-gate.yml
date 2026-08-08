@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-            - name: Validate GIT-05 marker
+      - name: Validate GIT-05 marker
         run: |
           echo "Running GIT-05 CI Quality Gate..."
           test -d NB_11_Transaction_Validation.Notebook
