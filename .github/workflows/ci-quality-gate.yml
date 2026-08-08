@@ -1,0 +1,22 @@
+name: CI Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  quality-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate GIT-05 marker
+        run: |
+          echo "Running GIT-05 CI Quality Gate..."
+          test -d NB_11_Transaction_Validation.Notebook
+          test -f NB_11_Transaction_Validation.Notebook/notebook-content.py
+          grep -q "GIT-05: CI quality gate test" NB_11_Transaction_Validation.Notebook/notebook-content.py
+                    echo "CI Quality Gate PASSED"
