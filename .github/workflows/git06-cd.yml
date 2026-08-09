@@ -34,6 +34,8 @@ jobs:
 
     environment:
       name: DEV
+    env:
+       DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
 
     steps:
       - name: Download deployment artifact
@@ -48,6 +50,7 @@ jobs:
           echo "GIT-06 DEV DEPLOYMENT"
           echo "================================="
           echo "Environment: DEV"
+          echo "Deployment configuration: $DEPLOYMENT_ENV"
           echo "Branch: $GITHUB_REF"
           echo "Commit: $GITHUB_SHA"
           echo "Artifact:"
@@ -61,6 +64,8 @@ jobs:
 
     environment:
       name: TEST
+    env:
+        DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
 
     steps:
       - name: Download deployment artifact
@@ -75,6 +80,7 @@ jobs:
           echo "GIT-06 TEST DEPLOYMENT"
           echo "================================="
           echo "Environment: TEST"
+          echo "Deployment configuration: $DEPLOYMENT_ENV"
           echo "Branch: $GITHUB_REF"
           echo "Commit: $GITHUB_SHA"
           echo "Artifact:"
@@ -89,6 +95,9 @@ jobs:
     environment:
       name: PROD
 
+    env:
+        DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
+
     steps:
       - name: Download deployment artifact
         uses: actions/download-artifact@v4
@@ -102,6 +111,7 @@ jobs:
           echo "GIT-06 PROD DEPLOYMENT"
           echo "================================="
           echo "Environment: PROD"
+          echo "Deployment configuration: $DEPLOYMENT_ENV"
           echo "Branch: $GITHUB_REF"
           echo "Commit: $GITHUB_SHA"
           echo "Artifact:"
