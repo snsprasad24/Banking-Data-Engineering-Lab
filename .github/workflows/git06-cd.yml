@@ -80,3 +80,30 @@ jobs:
           echo "Artifact:"
           ls -R deployment-package
           echo "TEST deployment successful"
+
+  deploy-prod:
+    name: Deploy to PROD
+    needs: deploy-test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: PROD
+
+    steps:
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: git06-deployment-artifact
+          path: deployment-package
+
+      - name: PROD deployment simulation
+        run: |
+          echo "================================="
+          echo "GIT-06 PROD DEPLOYMENT"
+          echo "================================="
+          echo "Environment: PROD"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit: $GITHUB_SHA"
+          echo "Artifact:"
+          ls -R deployment-package
+          echo "PROD deployment successful"
