@@ -1,0 +1,119 @@
+name: GIT-06 Enterprise CD
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-artifact:
+    name: Build Deployment Artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create deployment package
+        run: |
+          mkdir -p deployment-package
+          cp .github/workflows/git06-cd.yml deployment-package/
+          echo "GIT-06 Deployment Artifact" > deployment-package/README.txt
+          echo "Commit: $GITHUB_SHA" >> deployment-package/README.txt
+
+      - name: Upload deployment artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: git06-deployment-artifact
+          path: deployment-package/
+
+  deploy-dev:
+    name: Deploy to DEV
+    needs: build-artifact
+    runs-on: ubuntu-latest
+
+    environment:
+      name: DEV
+    env:
+       DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
+
+    steps:
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: git06-deployment-artifact
+          path: deployment-package
+
+      - name: DEV deployment simulation
+        run: |
+          echo "================================="
+          echo "GIT-06 DEV DEPLOYMENT"
+          echo "================================="
+          echo "Environment: DEV"
+          echo "Deployment configuration: $DEPLOYMENT_ENV"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit: $GITHUB_SHA"
+          echo "Artifact:"
+          ls -R deployment-package
+          echo "Deployment successful"
+
+  deploy-test:
+    name: Deploy to TEST
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+
+    environment:
+      name: TEST
+    env:
+        DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
+
+    steps:
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: git06-deployment-artifact
+          path: deployment-package
+
+      - name: TEST deployment simulation
+        run: |
+          echo "================================="
+          echo "GIT-06 TEST DEPLOYMENT"
+          echo "================================="
+          echo "Environment: TEST"
+          echo "Deployment configuration: $DEPLOYMENT_ENV"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit: $GITHUB_SHA"
+          echo "Artifact:"
+          ls -R deployment-package
+          echo "TEST deployment successful"
+     
+  deploy-prod:
+    name: Deploy to PROD
+    needs: deploy-test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: PROD
+
+    env:
+        DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
+
+    steps:
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: git06-deployment-artifact
+          path: deployment-package
+
+      - name: PROD deployment simulation
+        run: |
+          echo "================================="
+          echo "GIT-06 PROD DEPLOYMENT"
+          echo "================================="
+          echo "Environment: PROD"
+          echo "Deployment configuration: $DEPLOYMENT_ENV"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit: $GITHUB_SHA"
+          echo "Artifact:"
+          ls -R deployment-package
+          echo "PROD deployment successful"
