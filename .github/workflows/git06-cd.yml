@@ -53,3 +53,30 @@ jobs:
           echo "Artifact:"
           ls -R deployment-package
           echo "Deployment successful"
+
+  deploy-test:
+    name: Deploy to TEST
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+
+    environment:
+      name: TEST
+
+    steps:
+      - name: Download deployment artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: git06-deployment-artifact
+          path: deployment-package
+
+      - name: TEST deployment simulation
+        run: |
+          echo "================================="
+          echo "GIT-06 TEST DEPLOYMENT"
+          echo "================================="
+          echo "Environment: TEST"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit: $GITHUB_SHA"
+          echo "Artifact:"
+          ls -R deployment-package
+          echo "TEST deployment successful"
