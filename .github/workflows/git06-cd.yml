@@ -80,8 +80,7 @@ jobs:
           echo "Artifact:"
           ls -R deployment-package
           echo "TEST deployment successful"
-          exit 1
-
+     
   deploy-prod:
     name: Deploy to PROD
     needs: deploy-test
