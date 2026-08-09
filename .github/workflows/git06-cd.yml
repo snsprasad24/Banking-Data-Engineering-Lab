@@ -36,6 +36,7 @@ jobs:
       name: DEV
     env:
        DEPLOYMENT_ENV: ${{ vars.DEPLOYMENT_ENV }}
+       DEPLOYMENT_SECRET: ${{ secrets.DEPLOYMENT_SECRET }}
 
     steps:
       - name: Download deployment artifact
@@ -51,6 +52,7 @@ jobs:
           echo "================================="
           echo "Environment: DEV"
           echo "Deployment configuration: $DEPLOYMENT_ENV"
+          echo "Deployment secret is configured: ${DEPLOYMENT_SECRET:+YES}"
           echo "Branch: $GITHUB_REF"
           echo "Commit: $GITHUB_SHA"
           echo "Artifact:"
